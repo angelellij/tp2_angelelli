@@ -44,6 +44,7 @@
             this.BotonAgregar.TabIndex = 0;
             this.BotonAgregar.Text = "Agregar";
             this.BotonAgregar.UseVisualStyleBackColor = true;
+            this.BotonAgregar.Click += new System.EventHandler(this.BotonAgregar_Click);
             // 
             // BotonModificar
             // 
@@ -53,6 +54,7 @@
             this.BotonModificar.TabIndex = 1;
             this.BotonModificar.Text = "Modificar";
             this.BotonModificar.UseVisualStyleBackColor = true;
+            this.BotonModificar.Click += new System.EventHandler(this.BotonModificar_Click);
             // 
             // BotonEliminar
             // 
@@ -80,14 +82,14 @@
             this.dgvListadoArticulos.Name = "dgvListadoArticulos";
             this.dgvListadoArticulos.RowHeadersWidth = 51;
             this.dgvListadoArticulos.RowTemplate.Height = 24;
-            this.dgvListadoArticulos.Size = new System.Drawing.Size(775, 346);
+            this.dgvListadoArticulos.Size = new System.Drawing.Size(1003, 346);
             this.dgvListadoArticulos.TabIndex = 4;
             // 
             // Grilla
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1038, 450);
             this.Controls.Add(this.dgvListadoArticulos);
             this.Controls.Add(this.BotonDescripcion);
             this.Controls.Add(this.BotonEliminar);

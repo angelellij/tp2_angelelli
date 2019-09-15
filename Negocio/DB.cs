@@ -9,7 +9,7 @@ namespace Negocio
 {
     class DB
     {
-        public SqlCommand Comando = new SqlCommand();
+        public SqlCommand Comando { get; set; }
         public SqlConnection Conexion { get; set; }
         public SqlDataReader Lector { get; set; }
 
@@ -18,16 +18,26 @@ namespace Negocio
            
         }
 
-        public void ejecutarQuery(string query)
+        public void conexion()
         {
             Conexion = new SqlConnection();
             Conexion.ConnectionString = "data source=DESKTOP-SC6KCBQ\\SQLEXPRESS; initial catalog=CATALOGO_DB; integrated security=sspi";
             Comando = new SqlCommand();
             Comando.CommandType = System.Data.CommandType.Text;
-            Comando.CommandText = query;
             Comando.Connection = Conexion;
+        }
+        public void queryLectura(string query)
+        {
+            conexion();
+            Comando.CommandText = query;
             Conexion.Open();
             Lector = Comando.ExecuteReader();
+        }
+
+        public void ejecutarEscritura()
+        {
+            Conexion.Open();
+            Comando.ExecuteNonQuery();
         }
 
         public void cerrarConeccion()

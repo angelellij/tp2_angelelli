@@ -21,16 +21,46 @@ namespace Tp2_Angelelli
 
         private void Grilla_Load(object sender, EventArgs e)
         {
+            cargarDatos();
+        }
+
+        private void cargarDatos() {
             ArticuloNegocio articulosNegocio = new ArticuloNegocio();
             try
             {
-                dgvListadoArticulos.DataSource = articulosNegocio.getListArticulos(); 
+                dgvListadoArticulos.DataSource = articulosNegocio.getAll();
+                dgvListadoArticulos.Columns[0].Visible = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void BotonAgregar_Click(object sender, EventArgs e)
+        {
+            Articulo articulo = new Articulo();
+            FormularioABM formularioABM = new FormularioABM(articulo,1);
+            formularioABM.ShowDialog();
+            cargarDatos();
+        }
+
+        private void BotonModificar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Articulo articulo = new Articulo();
+                articulo = (Articulo)dgvListadoArticulos.CurrentRow.DataBoundItem;
+                FormularioABM formularioABM = new FormularioABM(articulo, 2);
+                formularioABM.ShowDialog();
+                cargarDatos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
     }
 }

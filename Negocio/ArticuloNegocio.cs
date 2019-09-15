@@ -9,14 +9,14 @@ namespace Negocio
     public class ArticuloNegocio
     {
         public ArticuloNegocio () { }
-        public List<Articulo> getListArticulos()
+        public List<Articulo> getAll()
         {
             List<Articulo> articulos = new List<Articulo>();
             DB db = new DB();
 
             try
             {
-                db.ejecutarQuery("" +
+                db.queryLectura("" +
                     "select a.Id, a.Codigo,a.Nombre, a.Descripcion, a.Imagen, a.Precio, a.IdMarca," +
                     " m.Descripcion DescripcionMarca, a.IdCategoria, c.Descripcion DescripcionCategoria " +
                     "from ARTICULOS a, MARCAS m, CATEGORIAS c " +
@@ -26,6 +26,7 @@ namespace Negocio
                 {
                     Articulo articulo = new Articulo();
                     articulo.id = (int)db.Lector["Id"];
+                    articulo.codigo = (string)db.Lector["codigo"];
                     articulo.nombre = (string)db.Lector["Nombre"];
                     articulo.descripcion = (string)db.Lector["Descripcion"]; 
 
@@ -37,8 +38,8 @@ namespace Negocio
                     articulo.categoria.id = (int)db.Lector["IdCategoria"];
                     articulo.categoria.descripcion = (string)db.Lector["DescripcionCategoria"];
 
-                    articulo.imagen = (string)db.Lector["imagen"];
-                    articulo.id = (int)db.Lector["id"];
+                    articulo.imagen = (string)db.Lector["Imagen"];
+                    articulo.precio = (decimal)db.Lector["Precio"];
 
                     articulos.Add(articulo);
                     
@@ -57,6 +58,50 @@ namespace Negocio
             return articulos;
         }
 
+        public void insert(Articulo articulo)
+        {
+            try
+            {
+                DB db = new DB();
+                db.conexion();
+                db.Comando.CommandText = "Insert into ARTICULOS values (" +
+                    "'" + articulo.codigo + "'," +
+                    "'" + articulo.nombre + "'," +
+                    "'" + articulo.descripcion + "'," +
+                    "'" + articulo.marca.id + "'," +
+                    "'" + articulo.categoria.id + "'," +
+                    "'" + articulo.imagen + "'," +
+                    "'" + articulo.precio + "');";
+                db.ejecutarEscritura();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+
+        public void update(Articulo articulo)
+        {
+            try
+            {
+                DB db = new DB();
+                db.conexion();
+                db.Comando.CommandText = "Update ARTICULOS set " +
+                    "Codigo ='" + articulo.codigo + "'," +
+                    "Nombre ='" + articulo.nombre + "'," +
+                    "Descripcion ='" + articulo.descripcion + "'," +
+                    "IdMarca ='" + articulo.marca.id + "'," +
+                    "IdCategoria ='" + articulo.categoria.id + "'," +
+                    "Imagen = '" + articulo.imagen + "'," +
+                    "Precio ='" + articulo.precio + "' where id = " + articulo.id + ";";
+                db.ejecutarEscritura();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }
