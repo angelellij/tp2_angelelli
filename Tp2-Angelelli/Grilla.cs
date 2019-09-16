@@ -14,6 +14,7 @@ namespace Tp2_Angelelli
 {
     public partial class Grilla : Form
     {
+        List<Articulo> articulos = new List<Articulo>();
         public Grilla()
         {
             InitializeComponent();
@@ -21,6 +22,7 @@ namespace Tp2_Angelelli
 
         private void Grilla_Load(object sender, EventArgs e)
         {
+            dgvListadoArticulos.MultiSelect = false;
             cargarDatos();
         }
 
@@ -28,7 +30,8 @@ namespace Tp2_Angelelli
             ArticuloNegocio articulosNegocio = new ArticuloNegocio();
             try
             {
-                dgvListadoArticulos.DataSource = articulosNegocio.getAll();
+                articulos = articulosNegocio.getAll();
+                dgvListadoArticulos.DataSource = articulos;
                 dgvListadoArticulos.Columns[0].Visible = false;
             }
             catch (Exception ex)
@@ -61,6 +64,67 @@ namespace Tp2_Angelelli
                 MessageBox.Show(ex.Message);
             }
             
+        }
+
+        private void BotonEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Articulo articulo = new Articulo();
+                articulo = (Articulo)dgvListadoArticulos.CurrentRow.DataBoundItem;
+                ArticuloNegocio articuloNegocio = new ArticuloNegocio();
+                articuloNegocio.Delete(articulo);
+                cargarDatos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void BotonDescripcion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Articulo articulo = new Articulo();
+                articulo = (Articulo)dgvListadoArticulos.CurrentRow.DataBoundItem;
+                FormularioABM formularioABM = new FormularioABM(articulo, 4);
+                formularioABM.ShowDialog();
+                cargarDatos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void BoxBuscar_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            String texto = BoxBuscar.Text.ToLower();
+            try
+            {
+                List<Articulo> articulosFiltrados = new List<Articulo>();
+                foreach (Articulo artX in articulos)
+                {
+                   if(
+                        artX.nombre.ToLower().Contains(texto) || 
+                        artX.descripcion.ToLower().Contains(texto) ||
+                        artX.codigo.ToLower().Contains(texto) || 
+                        artX.marca.descripcion.ToLower().Contains(texto) ||
+                        artX.categoria.descripcion.ToLower().Contains(texto) || 
+                        artX.imagen.ToLower().Contains(texto) || 
+                        artX.precio.ToString().ToLower().Contains(texto))
+                    {
+                        articulosFiltrados.Add(artX);
+                    }
+                }
+                dgvListadoArticulos.DataSource = articulosFiltrados;
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

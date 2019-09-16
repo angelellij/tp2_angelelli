@@ -37,21 +37,25 @@ namespace Tp2_Angelelli
                 BoxMarca.DataSource = marcaNegocio.getAll();
                 BoxCategoria.DataSource = categoriaNegocio.getAll();
 
-                switch (instruccion)
+                if (instruccion == 2 || instruccion == 4) {
+                    BoxCodigo.Text = articulo.codigo;
+                    BoxNombre.Text = articulo.nombre;
+                    BoxDescripcion.Text = articulo.descripcion;
+                    BoxMarca.SelectedItem = articulo.marca;
+                    BoxCategoria.SelectedItem = articulo.categoria;
+                    BoxImagen.Text = articulo.imagen;
+                    BoxPrecio.Text = articulo.precio.ToString();
+                }
+                if (instruccion == 4)
                 {
-                    //Agregar
-                    case 2:
-                        BoxCodigo.Text = articulo.codigo;
-                        BoxNombre.Text = articulo.nombre;
-                        BoxDescripcion.Text = articulo.descripcion;
-                        BoxMarca.SelectedItem = articulo.marca;
-                        BoxCategoria.SelectedItem = articulo.categoria;
-                        BoxImagen.Text = articulo.imagen;
-                        BoxPrecio.Text = articulo.precio.ToString();
-                        break;
-
-                    default:
-                        break;
+                    BoxCodigo.HideSelection = true;
+                    BoxCodigo.ReadOnly = true;
+                    BoxNombre.ReadOnly = true;
+                    BoxDescripcion.ReadOnly = true;
+                    BoxMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+                    BoxCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+                    BoxImagen.ReadOnly = true;
+                    BoxPrecio.ReadOnly = true;
                 }
                 
                 
@@ -84,11 +88,7 @@ namespace Tp2_Angelelli
                     case 2:
                         articuloNegocio.update(articulo);
                         break;
-                    case 3:
-                        articuloNegocio.insert(articulo);
-                        break;
-                    case 4:
-                        articuloNegocio.insert(articulo);
+                    default:
                         break;
                 }
                 

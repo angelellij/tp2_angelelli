@@ -103,5 +103,20 @@ namespace Negocio
             }
         }
 
+        public void Delete(Articulo articulo)
+        {
+            try
+            {
+                DB db = new DB();
+                db.conexion();
+                db.Comando.CommandText = "Delete from ARTICULOS where id = " + articulo.id + ";";
+                db.ejecutarEscritura();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
